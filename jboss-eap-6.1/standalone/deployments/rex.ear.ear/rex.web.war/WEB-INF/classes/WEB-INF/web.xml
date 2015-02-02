@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>rex.web</display-name>
+  <session-config>
+		<session-timeout>600</session-timeout>
+  </session-config>
+	
+  <welcome-file-list>
+    	<welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  
+  <context-param>
+		<param-name>esus.atualizacao.automatica.bd</param-name>
+		<param-value>${atualizacao.automatica}</param-value>
+  </context-param>
+  <context-param>
+		<param-name>esus.atualizacao.automatica.bd.checksum</param-name>
+		<param-value>0</param-value>
+  </context-param>
+  
+  <filter>
+		<filter-name>NoCacheFilter</filter-name>
+		<filter-class>com.performer.framework.server.NoCacheFilter</filter-class>
+  </filter>
+  <filter-mapping>
+		<filter-name>NoCacheFilter</filter-name>
+		<url-pattern>/index.html</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+		<filter-name>NoCacheFilter</filter-name>
+		<url-pattern>/debug.html</url-pattern>
+  </filter-mapping>
+  
+  <listener>
+		<display-name>Activator</display-name>
+		<listener-class>br.rex.server.RexActivator</listener-class>
+  </listener>
+  
+  <!-- Writer -->
+
+	<servlet>
+		<servlet-name>writer</servlet-name>
+		<servlet-class>com.performer.framework.server.OutputWriterServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>writer</servlet-name>
+		<url-pattern>/writer/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>writer</servlet-name>
+		<url-pattern>/download/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Upload -->
+
+	<servlet>
+		<servlet-name>upload</servlet-name>
+		<servlet-class>com.performer.framework.server.UploadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>upload</servlet-name>
+		<url-pattern>/upload/*</url-pattern>
+	</servlet-mapping>
+  
+  <!-- Library provider -->
+	
+	<servlet>
+		<servlet-name>lib</servlet-name>
+		<servlet-class>com.performer.framework.server.LibraryServlet</servlet-class>
+		<init-param>
+			<param-name>infinispan.cache</param-name>
+			<param-value>st10-local-web</param-value>
+		</init-param>
+	</servlet>	
+	<servlet-mapping>
+		<servlet-name>lib</servlet-name>
+		<url-pattern>/resources/lib/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>lib</servlet-name>
+		<url-pattern>/performerbrowser/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>lib</servlet-name>
+		<url-pattern>/index.html</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>lib</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+  
+  <!-- IPP XHR -->
+
+	<servlet>
+		<servlet-name>IPPServletChannel</servlet-name>
+		<servlet-class>com.performer.framework.server.IPPServletChannel</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>IPPServletChannel</servlet-name>
+		<url-pattern>/performerbrowser/ipp</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+        <description>AtmosphereServlet</description>
+        <servlet-name>AtmosphereServlet</servlet-name>
+        <servlet-class>org.atmosphere.cpr.AtmosphereServlet</servlet-class>
+        <init-param>
+            <param-name>org.atmosphere.cpr.AtmosphereInterceptor</param-name>
+            <param-value>org.atmosphere.client.TrackMessageSizeInterceptor</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.atmosphere.useNative</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+	          <param-name>org.atmosphere.useBlocking</param-name>
+	          <param-value>false</param-value>
+	    </init-param>
+	    <init-param>
+			<param-name>org.atmosphere.useWebSocket</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	     <init-param>
+	          <param-name>org.atmosphere.cpr.asyncSupport</param-name>
+	          <param-value>org.atmosphere.container.BlockingIOCometSupport</param-value>
+	    </init-param>
+	    <init-param>
+	    	<param-name>org.atmosphere.cpr.sessionSupport</param-name>
+            <param-value>true</param-value>
+	    </init-param>
+	    <init-param>
+            <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name>
+            <param-value>org.atmosphere.cache.UUIDBroadcasterCache</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
+    </servlet>
+    
+    <listener>
+	    <listener-class>org.atmosphere.cpr.SessionSupport</listener-class>
+	</listener>
+	
+    <servlet-mapping>
+        <servlet-name>AtmosphereServlet</servlet-name>
+        <url-pattern>/performerbrowser/ipplp</url-pattern>
+    </servlet-mapping>  
+</web-app>
