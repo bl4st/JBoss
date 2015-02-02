@@ -1,5 +1,0 @@
-<atmosphere-handlers>
-    <atmosphere-handler context-root="/performerbrowser/ipplp" class-name="com.performer.framework.server.AtmosphereHandlerServlet">
-        <property name="heartbeat" value="20000"/>
-    </atmosphere-handler>
-</atmosphere-handlers>

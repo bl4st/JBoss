@@ -21,7 +21,7 @@ jboss/server/minimal/work/**/*
 /jboss-eap-6.1/standalone/data/infinispan
 /jboss-eap-6.1/standalone/deployments
 /jboss-eap-6.1/standalone/deployments/*.deployed
-/jboss-eap-6.1/standalone/deployments/esus.ear
+/jboss-eap-6.1/standalone/deployments/rex.ear
 /jboss-eap-6.1/standalone/log
 /jboss-eap-6.1/standalone/log/server.log*
 /jboss-eap-6.1/standalone/tmp
